@@ -1,4 +1,4 @@
-package jp.nyatla.manacliper;
+package jp.nyatla.manaclipper;
 
 import java.awt.EventQueue;
 import java.awt.Graphics2D;
@@ -10,22 +10,18 @@ import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JButton;
 
-
-
-import jp.nyatla.manacliper.ctrl.DirectoryFileList;
-import jp.nyatla.manacliper.ctrl.ExportDlibDlg;
-import jp.nyatla.manacliper.ctrl.Export_jinfagang_keras_frcnn_TrainTextDlg;
-import jp.nyatla.manacliper.ctrl.PreviewPanel;
-import jp.nyatla.manacliper.ctrl.RectList;
-import jp.nyatla.manacliper.ctrl.RegisteredCombobox;
-import jp.nyatla.manacliper.io.DlibXml;
-import jp.nyatla.manacliper.io.JkfRcnLebelText;
-import jp.nyatla.manacliper.io.ManaClipperXml;
-import jp.nyatla.manacliper.io.Utils;
-import jp.nyatla.manacliper.type.ClipDataset;
-import jp.nyatla.manacliper.type.ClipDataset.BoxInfo;
-
-
+import jp.nyatla.manaclipper.ctrl.DirectoryFileList;
+import jp.nyatla.manaclipper.ctrl.ExportDlibDlg;
+import jp.nyatla.manaclipper.ctrl.Export_jinfagang_keras_frcnn_TrainTextDlg;
+import jp.nyatla.manaclipper.ctrl.PreviewPanel;
+import jp.nyatla.manaclipper.ctrl.RectList;
+import jp.nyatla.manaclipper.ctrl.RegisteredCombobox;
+import jp.nyatla.manaclipper.io.DlibXml;
+import jp.nyatla.manaclipper.io.JkfRcnLebelText;
+import jp.nyatla.manaclipper.io.ManaClipperXml;
+import jp.nyatla.manaclipper.io.Utils;
+import jp.nyatla.manaclipper.type.ClipDataset;
+import jp.nyatla.manaclipper.type.ClipDataset.BoxInfo;
 
 import javax.swing.JPanel;
 import javax.swing.JMenuBar;
@@ -41,6 +37,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
@@ -164,7 +162,7 @@ public class ManaClipperFrame {
 			public void inputMethodTextChanged(InputMethodEvent event) {
 			}
 		});
-		tagNameComboBox.setFont(new Font("�ｼｭ�ｼｳ �ｼｰ繧ｴ繧ｷ繝�繧ｯ", Font.PLAIN, 12));
+		tagNameComboBox.setFont(new Font("ＭＳ Ｐゴシック", Font.PLAIN, 12));
 		tagNameComboBox.setEditable(true);
 		tagNameComboBox.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -233,10 +231,10 @@ public class ManaClipperFrame {
 				_impl.handleSelectBoxList();
 			}
 		});
-		rectList.setFont(new Font("�ｼｭ�ｼｳ �ｼｰ繧ｴ繧ｷ繝�繧ｯ", Font.PLAIN, 12));
+		rectList.setFont(new Font("ＭＳ Ｐゴシック", Font.PLAIN, 12));
 		scrollPane_1.setViewportView(rectList);
 		DirectoryFileList fileList = new DirectoryFileList();
-		fileList.setFont(new Font("�ｼｭ�ｼｳ �ｼｰ繧ｴ繧ｷ繝�繧ｯ", Font.PLAIN, 12));
+		fileList.setFont(new Font("ＭＳ Ｐゴシック", Font.PLAIN, 12));
 		scrollPane.setViewportView(fileList);
 		fileList.addListSelectionListener(new ListSelectionListener() {
 			public void valueChanged(ListSelectionEvent arg0) {
@@ -329,7 +327,7 @@ public class ManaClipperFrame {
 		JMenuItem mntmNewMenuItem_3 = new JMenuItem("About");
 		mntmNewMenuItem_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(frmManaclipper,String.format("ManaClipper/0.02\n (c)2018 nyatla.jp"));
+				JOptionPane.showMessageDialog(frmManaclipper,String.format("ManaClipper/0.03\n (c)2018 nyatla.jp"));
 			}
 		});
 		menuBar.add(mntmNewMenuItem_3);
@@ -350,7 +348,7 @@ class AppImpl{
 
 
 	/**
-	 * 繝�繧｣繝ｬ繧ｯ繝医Μ繧偵そ繝�繝医☆繧九��
+	 * ディレクトリをセットする。
 	 */
 	public void handleSelectNewDirectory()
 	{
@@ -362,15 +360,15 @@ class AppImpl{
 			return;
 		}
 		lastDirectory=filechooser.getSelectedFile().getParentFile();
-		//譛�邨ら｢ｺ隱�
-	    int option = JOptionPane.showConfirmDialog(this.frame, "Are you sure to縲�override current data?","Confirm", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+		//最終確認
+	    int option = JOptionPane.showConfirmDialog(this.frame, "Are you sure to override current data?","Confirm", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
 	    if(option != JOptionPane.YES_OPTION){
 	    	return;
 	    }
 		File f=filechooser.getSelectedFile();
 		this.loadDirectory(f);
 	}
-	/** TagCombobox縺ｮ蛟､繧帝∈謚槭＆繧後※縺�繧九�懊ャ繧ｯ繧ｹ縺ｮ繧ゅ�ｮ縺ｫ螟画峩縺吶ｋ*/
+	/** TagComboboxの値を選択されているボックスのものに変更する*/
 	public void handleSelectBoxList() {
 		int findex=this.filelist.getSelectedIndex();
 		if(findex<0) {
@@ -384,9 +382,9 @@ class AppImpl{
 		BoxInfo box=cds.get(findex).getBoxInfo().get(rindex);
 		this.tagname.getEditor().setItem(box.tag);
 	}
-	/** Tag縺ｮ蛟､縺ｧ驕ｸ謚槭＆繧後※縺�繧九�懊ャ繧ｯ繧ｹ繧呈峩譁ｰ縺吶ｋ縲�*/
+	/** Tagの値で選択されているボックスを更新する。*/
 	public void handleTagChanged() {
-		//遏ｩ蠖｢繝ｪ繧ｹ繝医′驕ｸ謚槭＆繧後※縺�縺溘ｉ譖ｴ譁ｰ縺吶ｋ
+		//矩形リストが選択されていたら更新する
 		int findex=this.filelist.getSelectedIndex();
 		if(findex<0) {
 			return;
@@ -414,7 +412,7 @@ class AppImpl{
 
 
 	private boolean confirmNotEmptyDir() {
-		//遨ｺ縺ｧ縺ｯ縺ｪ縺�繝�繧｣繝ｬ繧ｯ繝医Μ縺ｮ蝣ｴ蜷�
+		//空ではないディレクトリの場合
 	    int option = JOptionPane.showConfirmDialog(this.frame, 
 	    		  "The directory is not empty. All some name file will be overwritten. "
 	    		+ "Do you want to continue?","Confirm", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
@@ -423,12 +421,12 @@ class AppImpl{
 	    }
 		return true;
 	}
-	/** 繝輔ぃ繧､繝ｫ縺梧里縺ｫ蟄伜惠縺吶ｋ蝣ｴ蜷医↓荳頑嶌縺阪メ繧ｧ繝�繧ｯ*/
+	/** ファイルが既に存在する場合に上書きチェック*/
 	private boolean confirmFileAlreadyExist(File f) {
 		if(!f.exists()) {
 			return true;
 		}
-		//遨ｺ縺ｧ縺ｯ縺ｪ縺�繝�繧｣繝ｬ繧ｯ繝医Μ縺ｮ蝣ｴ蜷�
+		//空ではないディレクトリの場合
 	    int option = JOptionPane.showConfirmDialog(this.frame, 
 	    		  "The file is already exist. "
 	    		+ "Do you want to override and continue?","Confirm", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
@@ -439,7 +437,7 @@ class AppImpl{
 	}
 
 	private boolean confirmMakeDir() {
-		//繝�繧｣繝ｬ繧ｯ繝医Μ縺後↑縺�蝣ｴ蜷�
+		//ディレクトリがない場合
 	    int option = JOptionPane.showConfirmDialog(this.frame, 
 	    		  "Do you want to make directory?","Confirm", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
 	    if(option != JOptionPane.YES_OPTION){
@@ -447,104 +445,100 @@ class AppImpl{
 	    }
 	    return true;
 	}
+	private File prepareParentDir(File ftxt)
+	{
+		File fdir=ftxt.getParentFile();
+		if(fdir.exists() && fdir.isDirectory() && fdir.list().length>0) {
+			if(!confirmNotEmptyDir()) {
+				return null;
+			}
+		}else if(!fdir.exists()) {
+			if(!confirmMakeDir()) {
+				return null;
+			}
+		    if(!fdir.mkdirs()) {
+			    JOptionPane.showConfirmDialog(this.frame,"Can not make the directory.","Confirm", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
+			    return null;
+		    }
+		}
+		return fdir;
+	}
 	public void handleJkfRcnExport() {
 		Export_jinfagang_keras_frcnn_TrainTextDlg dlg=new Export_jinfagang_keras_frcnn_TrainTextDlg();
-		Export_jinfagang_keras_frcnn_TrainTextDlg.Result r=dlg.doModal();
+		Export_jinfagang_keras_frcnn_TrainTextDlg.Result r=dlg.doModal("rcnn_labels.txt");
 		if(r==null) {
 			return;
 		}
-		//繝�繧｣繝ｬ繧ｯ繝医Μ蜷阪�ｮ繝√ぉ繝�繧ｯ
+		
 		File ftxt=new File(r.output_xml_path);
-		if(!r.makeImage) {
-			//逕ｻ蜒上ｒ菴懊ｉ縺ｪ縺�蝣ｴ蜷�
-			if(!confirmFileAlreadyExist(ftxt)) {
-				return;
-			}
-			JkfRcnLebelText xml=new JkfRcnLebelText();
-			for(ClipDataset.Item i:filelist.getAttached()) {
-				//繝輔ぃ繧､繝ｫ隱ｭ縺ｿ霎ｼ縺ｿ蜿ｯ閭ｽ�ｼ�
-				File image_file=new File(i.path);
-				if(!image_file.exists()) {
-					continue;
-				}
-				//逕ｻ蜒冗函謌舌＠縺ｪ縺�縺ｪ繧峨◎縺ｮ縺ｾ縺ｾXML縺ｫ霑ｽ險�
-				if(!i.getBoxInfo().isEmpty()) {
+		if(!confirmFileAlreadyExist(ftxt)) {
+			return;
+		}
+		try {
+			JkfRcnLebelText labelfile=new JkfRcnLebelText();
+			ClipDataset subset=filelist.getAttached().getSubset(r.filter);
+			switch(r.makeImageMode) {
+			case NO_COPY:
+				for(ClipDataset.Item i:subset)
+				{
 					for(BoxInfo b:i.getBoxInfo()) {
-						if(!r.filter.isEmpty() && !r.filter.contains(b.tag)) {
-							continue;
-						}
-						//繧ｿ繧ｰ縺後↑縺�繧ゅ�ｮ縺ｯ謗帝勁
-						if(b.tag.isEmpty()) {
-							continue;
-						}
-						xml.add(new JkfRcnLebelText.Item(i.path,b));
+						labelfile.add(new JkfRcnLebelText.Item(i.path,b));
 					}
 				}
-				try {
-					JkfRcnLebelText.saveToFile(xml,ftxt);
-				} catch (IOException e) {
-					throw new RuntimeException(e);
-				}
-			}			
-		}else {
-			//逕ｻ蜒上ｒ菴懊ｋ蝣ｴ蜷�
-			File fdir=ftxt.getParentFile();
-			if(fdir.exists() && fdir.isDirectory() && fdir.list().length>0) {
-				//繝�繧｣繝ｬ繧ｯ繝医Μ縺梧里縺ｫ蟄伜惠縺吶ｋ蝣ｴ蜷�
-				if(!confirmNotEmptyDir()) {
-					return;
-				}
-			}else if(!fdir.exists()) {
-				if(!confirmMakeDir()) {
-					return;
-				}
-				//繝�繧｣繝ｬ繧ｯ繝医Μ縺後↑縺代ｌ縺ｰ菴懊ｋ
-			    if(!fdir.mkdirs()) {
-				    JOptionPane.showConfirmDialog(this.frame,"Can not make the directory.","Confirm", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
-				    return;
-			    }
-			}
-			int filenumber=0;
-			JkfRcnLebelText xml=new JkfRcnLebelText();
-			//XML縺ｮ菴懈��
-			for(ClipDataset.Item i:filelist.getAttached()) {
-				//繝輔ぃ繧､繝ｫ隱ｭ縺ｿ霎ｼ縺ｿ蜿ｯ閭ｽ�ｼ�
-				File image_file=new File(i.path);
-				if(!image_file.exists()) {
-					continue;
-				}
-				//荳�蛟九ｂ縺ｪ縺代ｌ縺ｰ繝代せ
-				if(i.getBoxInfo().isEmpty()) {
-					continue;
-				}
-				//逕ｻ蜒冗函謌舌☆繧九↑繧峨ヵ繧｡繧､繝ｫ蜷阪ｒ螟峨∴縺ｦXML縺ｫ霑ｽ險�
-				try {
-					BufferedImage im=ImageIO.read(image_file);
-					for(BoxInfo b:i.getBoxInfo()) {
-						if(!r.filter.isEmpty() && !r.filter.contains(b.tag)) {
-							continue;
+				break;
+			case MAKE_PATCH:
+				{
+					File fdir=this.prepareParentDir(ftxt);
+					int filenumber=0;
+					for(ClipDataset.Item i:subset) {
+						BufferedImage im=ImageIO.read(new File(i.path));
+						for(BoxInfo b:i.getBoxInfo()) {
+							BufferedImage subimg = im.getSubimage(b.l,b.t,b.w,b.h);
+							String imagename=String.format("%05d.jpg", filenumber);
+							ImageIO.write(subimg,"jpg",new File(fdir,imagename));
+							labelfile.add(new JkfRcnLebelText.Item(imagename,new BoxInfo(0,0,b.w,b.h,b.tag)));
+							filenumber++;
 						}
-						BufferedImage subimg = im.getSubimage(b.l,b.t,b.w,b.h);
-						String imagename=String.format("%05d.png", filenumber);
-						//繝ｪ繧ｵ繧､繧ｺ縺ｮ譛臥┌縺ｧ蛻�縺代ｋ
-						if(!r.makeResize) {
-							ImageIO.write(subimg,"png",new File(fdir,imagename));
-							xml.add(new JkfRcnLebelText.Item(imagename,new BoxInfo(0,0,b.w,b.h,b.tag)));
-						}else {
+					}
+				}
+				break;
+			case MAKE_RESIZED_PATCH:
+				{
+					File fdir=this.prepareParentDir(ftxt);
+					int filenumber=0;
+					for(ClipDataset.Item i:subset) {
+						BufferedImage im=ImageIO.read(new File(i.path));
+						for(BoxInfo b:i.getBoxInfo()) {
+							BufferedImage subimg = im.getSubimage(b.l,b.t,b.w,b.h);
+							String imagename=String.format("%05d.png", filenumber);
 							ImageIO.write(resizeImage(subimg,r.width,r.height),"png",new File(fdir,imagename));	
-							xml.add(new JkfRcnLebelText.Item(imagename,new BoxInfo(0,0,r.width,r.height,b.tag)));
+							labelfile.add(new JkfRcnLebelText.Item(imagename,new BoxInfo(0,0,r.width,r.height,b.tag)));
+							filenumber++;
 						}
-						filenumber++;
-					}
-				} catch (IOException e) {
-					throw new RuntimeException(e);
+					}			
 				}
+				break;
+			case COPY_IMAGE:
+			{
+				File fdir=this.prepareParentDir(ftxt);
+				int filenumber=0;
+				for(ClipDataset.Item i:subset) {
+					String imagename=String.format("%05d.png", filenumber);
+					Files.copy(new File(i.path).toPath(),new File(fdir,imagename).toPath(), StandardCopyOption.REPLACE_EXISTING);
+					filenumber++;
+					for(BoxInfo b:i.getBoxInfo()) {
+						labelfile.add(new JkfRcnLebelText.Item(imagename,new BoxInfo(0,0,r.width,r.height,b.tag)));
+					}
+				}			
 			}
-			try {
-				JkfRcnLebelText.saveToFile(xml,ftxt);
-			} catch (IOException e) {
-				throw new RuntimeException(e);
+			break;				
+			default:
+				throw new RuntimeException("Invalid case!");
 			}
+			//ファイルの保�?
+			JkfRcnLebelText.saveToFile(labelfile,ftxt);
+		} catch (IOException e) {
+			throw new RuntimeException(e);
 		}
 	}	
 	
@@ -557,21 +551,21 @@ class AppImpl{
 		if(r==null) {
 			return;
 		}
-		//繝�繧｣繝ｬ繧ｯ繝医Μ蜷阪�ｮ繝√ぉ繝�繧ｯ
+		//
 		File fxml=new File(r.output_xml_path);
 		if(!r.makeImage) {
-			//逕ｻ蜒上ｒ菴懊ｉ縺ｪ縺�蝣ｴ蜷�
+			//
 			if(!confirmFileAlreadyExist(fxml)) {
 				return;
 			}
 			DlibXml xml=new DlibXml();
 			for(ClipDataset.Item i:filelist.getAttached()) {
-				//繝輔ぃ繧､繝ｫ隱ｭ縺ｿ霎ｼ縺ｿ蜿ｯ閭ｽ�ｼ�
+				//
 				File image_file=new File(i.path);
 				if(!image_file.exists()) {
 					continue;
 				}
-				//逕ｻ蜒冗函謌舌＠縺ｪ縺�縺ｪ繧峨◎縺ｮ縺ｾ縺ｾXML縺ｫ霑ｽ險�
+				//
 				if(!i.getBoxInfo().isEmpty()) {
 					DlibXml.Image xim=new DlibXml.Image();
 					xim.file=i.path;
@@ -589,10 +583,10 @@ class AppImpl{
 				DlibXml.saveToFile(xml,fxml);
 			}			
 		}else {
-			//逕ｻ蜒上ｒ菴懊ｋ蝣ｴ蜷�
+			//
 			File fdir=fxml.getParentFile();
 			if(fdir.exists() && fdir.isDirectory() && fdir.list().length>0) {
-				//繝�繧｣繝ｬ繧ｯ繝医Μ縺梧里縺ｫ蟄伜惠縺吶ｋ蝣ｴ蜷�
+				//
 				if(!confirmNotEmptyDir()) {
 					return;
 				}
@@ -600,7 +594,7 @@ class AppImpl{
 				if(!confirmMakeDir()) {
 					return;
 				}				
-				//繝�繧｣繝ｬ繧ｯ繝医Μ縺後↑縺代ｌ縺ｰ菴懊ｋ
+				//
 			    if(!fdir.mkdirs()) {
 				    JOptionPane.showConfirmDialog(this.frame,"Can not make the directory.","Confirm", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
 				    return;
@@ -608,18 +602,18 @@ class AppImpl{
 			}
 			int filenumber=0;
 			DlibXml xml=new DlibXml();
-			//XML縺ｮ菴懈��
+			//XML
 			for(ClipDataset.Item i:filelist.getAttached()) {
-				//繝輔ぃ繧､繝ｫ隱ｭ縺ｿ霎ｼ縺ｿ蜿ｯ閭ｽ�ｼ�
+				//
 				File image_file=new File(i.path);
 				if(!image_file.exists()) {
 					continue;
 				}
-				//荳�蛟九ｂ縺ｪ縺代ｌ縺ｰ繝代せ
+				//
 				if(i.getBoxInfo().isEmpty()) {
 					continue;
 				}
-				//逕ｻ蜒冗函謌舌☆繧九↑繧峨ヵ繧｡繧､繝ｫ蜷阪ｒ螟峨∴縺ｦXML縺ｫ霑ｽ險�
+				//
 				try {
 					BufferedImage im=ImageIO.read(image_file);
 					for(BoxInfo b:i.getBoxInfo()) {
@@ -630,7 +624,7 @@ class AppImpl{
 						String imagename=String.format("%05d.png", filenumber);
 						DlibXml.Image xim=new DlibXml.Image();
 						xim.file=imagename;
-						//繝ｪ繧ｵ繧､繧ｺ縺ｮ譛臥┌縺ｧ蛻�縺代ｋ
+						//
 						if(!r.makeResize) {
 							ImageIO.write(subimg,"png",new File(fdir,imagename));
 							xim.boxes.add(new DlibXml.Box(0,0,b.w,b.h,b.tag));
@@ -650,10 +644,10 @@ class AppImpl{
 		}
 	}
 	/**
-	 * 繝輔ぃ繧､繝ｫ繝ｪ繧ｹ繝医°繧牙ｭ伜惠縺励↑縺�繝輔ぃ繧､繝ｫ繧呈ｶ医☆繧�縺､
+	 * 
 	 */
 	public void handleDeleteUnexistFiles() {
-		//譛�邨ら｢ｺ隱�
+		//
 	    int option = JOptionPane.showConfirmDialog(this.frame, "Are you sure to be cleanup the filelist?","Confirm", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
 	    if(option != JOptionPane.YES_OPTION){
 	    	return;
@@ -671,7 +665,7 @@ class AppImpl{
 		loadCds(current);
 	}
 	/**
-	 * 霑ｽ險倥Ο繝ｼ繝�
+	 * 
 	 */
 	public void handleAppendDirectory() {
 		JFileChooser filechooser = new JFileChooser();
@@ -682,7 +676,7 @@ class AppImpl{
 			return;
 		}
 		lastDirectory=filechooser.getSelectedFile().getParentFile();
-		//譛�邨ら｢ｺ隱�
+		
 	    int option = JOptionPane.showConfirmDialog(this.frame, "Are you sure to append data to the filelist?","Confirm", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
 	    if(option != JOptionPane.YES_OPTION){
 	    	return;
@@ -710,8 +704,8 @@ class AppImpl{
 			return;
 		}
 		lastDirectory=filechooser.getSelectedFile().getParentFile();
-		//譛�邨ら｢ｺ隱�
-	    int option = JOptionPane.showConfirmDialog(this.frame, "Are you sure to縲�override current data?","Confirm", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+		//
+	    int option = JOptionPane.showConfirmDialog(this.frame, "Are you sure override current data?","Confirm", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
 	    if(option != JOptionPane.YES_OPTION){
 	    	return;
 	    }
@@ -720,7 +714,7 @@ class AppImpl{
 		loadCds(xml.toClipData());
 	}
 	/**
-	 * XML縺ｮ繧ｻ繝ｼ繝�
+	 * XML
 	 */
 	public void handleSaveToFile() {
 		JFileChooser filechooser = new JFileChooser();
@@ -739,11 +733,11 @@ class AppImpl{
 		this.preview.repaint();
 	}
 	/**
-	 * 繧ｯ繝ｪ繝�繝励ｒ菴懈�舌☆繧�
+	 * 
 	 */
 	public void handleAddClip()
 	{
-		//ComboBox縺ｫ霑ｽ蜉�
+		//ComboBox
 		tagname.addCurrentTextIfNot();
 
 		int index=this.filelist.getSelectedIndex();
@@ -753,7 +747,7 @@ class AppImpl{
 		if(!this.preview.isInnerCursol()) {
 			return;
 		}
-		//Rect縺ｮ逋ｻ骭ｲ
+		//
 		Object s=this.tagname.getEditor().getItem();
 		int[] ltwh=this.preview.getImageCursor();
 		rectlist.addRect(ltwh[0],ltwh[1],ltwh[2],ltwh[3],s==null?"":s.toString());
@@ -774,7 +768,7 @@ class AppImpl{
 	}
 	public void handleSelectFile()
 	{
-		//逕ｻ蜒上ｒ繝ｭ繝ｼ繝峨＠縺ｦ謠冗判
+		//
 		int i_index=this.filelist.getSelectedIndex();
 		if(i_index<0) {
 			this.preview.setImage(null,null);
@@ -784,7 +778,7 @@ class AppImpl{
 		ClipDataset.Item item=this.filelist.getDataSetItem(i_index);
 		File image_file=new File(item.path);
 		if(!image_file.exists()) {
-			//繝輔ぃ繧､繝ｫ縺後↑縺�蝣ｴ蜷�
+			//
 			this.preview.setImage(null,null);
 			this.rectlist.attach(item);
 		}else {
@@ -801,7 +795,7 @@ class AppImpl{
 
 	}
 	/**
-	 * 逕ｻ蜒上ｒ繝ｪ繧ｵ繧､繧ｺ縺吶ｋ縲�
+	 * 
 	 * @param org
 	 * @param w
 	 * @param h
@@ -820,7 +814,7 @@ class AppImpl{
     }
 	
 	/**
-	 * 繧ｽ繝ｼ繧ｹ繝�繧｣繝ｬ繧ｯ繝医Μ繧呈欠螳壹☆繧九��
+	 * 
 	 * @param i_path
 	 */
 	public void loadDirectory(File i_path)

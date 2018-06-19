@@ -1,16 +1,16 @@
-package jp.nyatla.manacliper.io;
+package jp.nyatla.manaclipper.io;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import jp.nyatla.manacliper.type.ClipDataset;
+import jp.nyatla.manaclipper.type.ClipDataset;
 
 /**
  * 
  * https://github.com/jinfagang/keras_frcnn
- * keras_frcnn特徴画像定義ファイル形式
+ * keras_frcnn
  *
  */
 public class JkfRcnLebelText extends ArrayList<JkfRcnLebelText.Item>{

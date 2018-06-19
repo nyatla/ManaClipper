@@ -1,4 +1,4 @@
-package jp.nyatla.manacliper.ctrl;
+package jp.nyatla.manaclipper.ctrl;
 
 import java.util.List;
 
@@ -6,12 +6,11 @@ import javax.swing.AbstractListModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
 
-import jp.nyatla.manacliper.type.ClipDataset;
-import jp.nyatla.manacliper.type.ClipDataset.BoxInfo;
+import jp.nyatla.manaclipper.type.ClipDataset;
+import jp.nyatla.manaclipper.type.ClipDataset.BoxInfo;
 
 /**
- * 参照しているItemのBoxInfoを編集するJList.
- * アタッチしてる間はBoxInfoを占有させといて。
+
  *
  */
 public class RectList extends JList<String>{

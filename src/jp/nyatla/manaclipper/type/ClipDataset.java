@@ -1,14 +1,19 @@
-package jp.nyatla.manacliper.type;
+package jp.nyatla.manaclipper.type;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import jp.nyatla.manaclipper.io.JkfRcnLebelText;
+import jp.nyatla.manaclipper.type.ClipDataset.BoxInfo;
+
 
 /**
- * ãƒˆãƒªãƒŸãƒ³ã‚°æƒ…å ±ã®ãƒªã‚¹ãƒˆã‚’æ ¼ç´ã™ã‚‹ãƒ‡ãƒ¼ã‚¿ã‚»ãƒƒãƒˆ
+ * ƒAƒmƒe[ƒVƒ‡ƒ“ƒf[ƒ^‚ÌŠi”[æ
  *
  */
 public class ClipDataset implements Iterable<ClipDataset.Item>{
@@ -36,16 +41,55 @@ public class ClipDataset implements Iterable<ClipDataset.Item>{
 		public List<BoxInfo> getBoxInfo(){
 			return this._boxinfo;
 		}
+		/**
+		 * Box‚ğ’Ç‰Á‚µ‚Ü‚·B
+		 */
+		public void addBox(BoxInfo box) {
+			this._boxinfo.add(box);
+		}
 	}
 	private final Map<String,Integer> _map=new HashMap<String,Integer>();
 	private final List<Item> _items=new ArrayList<Item>();
 	public ClipDataset() {
 	}
-
-
-	
 	/**
-	 * é‡è¤‡ãªãè¿½è¨˜ã™ã‚‹
+	 * ƒtƒBƒ‹ƒ^‚É‡’v‚·‚ébox‚ğŠÜ‚ŞƒTƒuƒZƒbƒg‚ğ“¾‚éB
+	 * @param target_tags
+	 * @return
+	 */
+	public ClipDataset getSubset(List<String> target_tags)
+	{
+		ClipDataset ret=new ClipDataset();
+		for(ClipDataset.Item i:this._items)
+		{
+			//ƒtƒ@ƒCƒ‹‚Í‘¶İ‚·‚éH
+			File image_file=new File(i.path);
+			if(!image_file.exists()) {
+				continue;
+			}
+			//box‚Í‚ ‚éH
+			if(i.getBoxInfo().isEmpty()) {
+				continue;
+			}
+			ClipDataset.Item item=new ClipDataset.Item(i.path);
+			for(BoxInfo b:i.getBoxInfo()) {
+				if(!target_tags.isEmpty() && !target_tags.contains(b.tag)) {
+					continue;
+				}
+				if(b.tag.isEmpty()) {
+					continue;
+				}
+				item.addBox(b);
+			}
+			if(item.getBoxInfo().isEmpty()) {
+				continue;
+			}
+			ret._items.add(item);
+		}
+		return ret;
+	}
+	/**
+	 * ƒtƒ@ƒCƒ‹‚ğ’Ç‰Á‚·‚é
 	 */
 	public boolean add(String i_file_path) {
 		//

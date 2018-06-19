@@ -1,13 +1,12 @@
-package jp.nyatla.manacliper.io;
+package jp.nyatla.manaclipper.io;
 
 import java.io.File;
 import java.util.regex.Pattern;
 
-import jp.nyatla.manacliper.type.ClipDataset;
+import jp.nyatla.manaclipper.type.ClipDataset;
 
 public class Utils {
 	/**
-	 * ディレクトリのパスを指定して生成。初期化ファイルは使わない。
 	 * @param i_directory_path
 	 * @return
 	 */
@@ -15,10 +14,10 @@ public class Utils {
 	{
 		ClipDataset ret=new ClipDataset();
         Pattern p = Pattern.compile(".+\\.(jpe?g|png)$",Pattern.CASE_INSENSITIVE);
-        //listFilesメソッドを使用して一覧を得る。
+        //listFiles
         File[] list = i_directory_path.listFiles();
         for(File i:list) {
-        	//ファイル名ではじく
+        	//
             if(!p.matcher(i.getName()).matches()){
             	continue;
             }

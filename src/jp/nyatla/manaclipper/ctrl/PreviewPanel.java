@@ -1,4 +1,4 @@
-package jp.nyatla.manacliper.ctrl;
+package jp.nyatla.manaclipper.ctrl;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -12,8 +12,8 @@ import java.util.List;
 
 import javax.swing.JPanel;
 
-import jp.nyatla.manacliper.type.ClipDataset;
-import jp.nyatla.manacliper.type.ClipDataset.BoxInfo;
+import jp.nyatla.manaclipper.type.ClipDataset;
+import jp.nyatla.manaclipper.type.ClipDataset.BoxInfo;
 
 public class PreviewPanel extends JPanel
 {
@@ -85,7 +85,7 @@ public class PreviewPanel extends JPanel
 		        	g2D.drawRect((int)(i.l*zoom),(int)(i.t*zoom),(int)(i.w*zoom),(int)(i.h*zoom));
 		        }
 	        }
-	        //カーソルの描画
+
 	        if(this.isInnerCursol()) {
 		    	g2D.setColor(new Color(0,255,0,64));
 	        }else {

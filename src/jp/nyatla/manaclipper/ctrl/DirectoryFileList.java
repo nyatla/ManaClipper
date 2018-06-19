@@ -1,11 +1,11 @@
-package jp.nyatla.manacliper.ctrl;
+package jp.nyatla.manaclipper.ctrl;
 
 
 import javax.swing.AbstractListModel;
 import javax.swing.JList;
 
-import jp.nyatla.manacliper.type.ClipDataset;
-import jp.nyatla.manacliper.type.ClipDataset.Item;
+import jp.nyatla.manaclipper.type.ClipDataset;
+import jp.nyatla.manaclipper.type.ClipDataset.Item;
 
 public class DirectoryFileList extends JList<String>{
 	private static final long serialVersionUID = 8388693799051674714L;

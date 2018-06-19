@@ -1,4 +1,4 @@
-package jp.nyatla.manacliper.io;
+package jp.nyatla.manaclipper.io;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -13,8 +13,8 @@ import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
-import jp.nyatla.manacliper.type.ClipDataset;
-import jp.nyatla.manacliper.type.ClipDataset.BoxInfo;
+import jp.nyatla.manaclipper.type.ClipDataset;
+import jp.nyatla.manaclipper.type.ClipDataset.BoxInfo;
 
 @XmlRootElement(name="dataset")
 public class DlibXml {

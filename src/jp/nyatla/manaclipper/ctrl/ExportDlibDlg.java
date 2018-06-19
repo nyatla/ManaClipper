@@ -1,4 +1,4 @@
-package jp.nyatla.manacliper.ctrl;
+package jp.nyatla.manaclipper.ctrl;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
@@ -21,7 +21,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.awt.event.ActionEvent;
 
-public class Export_jinfagang_keras_frcnn_TrainTextDlg extends JDialog {
+public class ExportDlibDlg extends JDialog {
 
 	public class Result{
 		final public String output_xml_path;
@@ -74,10 +74,10 @@ public class Export_jinfagang_keras_frcnn_TrainTextDlg extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public Export_jinfagang_keras_frcnn_TrainTextDlg() {
+	public ExportDlibDlg() {
 		setResizable(false);
 		setModal(true);
-		setTitle("Export jinfagang_keras_frcnn text");
+		setTitle("Export dlib compatible XML");
 		setBounds(100, 100, 450, 300);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -147,7 +147,7 @@ public class Export_jinfagang_keras_frcnn_TrainTextDlg extends JDialog {
 				JButton okButton = new JButton("OK");
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						//入力チェック
+						//
 						if(_impl.isValid()) {
 							setVisible(false);
 							result=new Result(_impl);							
@@ -202,13 +202,10 @@ public class Export_jinfagang_keras_frcnn_TrainTextDlg extends JDialog {
 			this._resize_x.setEnabled(f);
 			this._resize_y.setEnabled(f);
 		}
-		/**
-		 * 入力データの整合性チェック
-		 * 1.現在のディレクトリがあるか
-		 */
+
 		public boolean isValid()
 		{
-			//ファイル名のチェック
+
 			if(this._output_text.getText().isEmpty()) {
 				JOptionPane.showConfirmDialog(this.frame, "Fill output file name.","ERROR", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
 				return false;
@@ -218,9 +215,7 @@ public class Export_jinfagang_keras_frcnn_TrainTextDlg extends JDialog {
 				JOptionPane.showConfirmDialog(this.frame, "Fix output file path","ERROR", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
 				return false;			
 			}
-			//フィルタのチェック
-				//String filter=this._filter_text.getText();
-			//出力フラグのチェック
+
 			if(this._patch_checkbox.isSelected() && this._resize_checkbox.isSelected()) {
 				try{
 					int i=Integer.parseInt(_resize_x.getText());

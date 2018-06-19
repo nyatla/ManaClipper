@@ -1,11 +1,11 @@
-package jp.nyatla.manacliper.ctrl;
+package jp.nyatla.manaclipper.ctrl;
 
 import java.util.HashSet;
 import java.util.Set;
 
 import javax.swing.JComboBox;
 
-import jp.nyatla.manacliper.type.ClipDataset;
+import jp.nyatla.manaclipper.type.ClipDataset;
 
 public class RegisteredCombobox  extends JComboBox<String>{
 	private static final long serialVersionUID = 8102181317257264168L;

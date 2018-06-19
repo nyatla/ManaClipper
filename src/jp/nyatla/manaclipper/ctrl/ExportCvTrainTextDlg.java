@@ -1,4 +1,4 @@
-package jp.nyatla.manacliper.ctrl;
+package jp.nyatla.manaclipper.ctrl;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
@@ -147,7 +147,7 @@ public class ExportCvTrainTextDlg extends JDialog {
 				JButton okButton = new JButton("OK");
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						//入力チェック
+						//入力チェ�?ク
 						if(_impl.isValid()) {
 							setVisible(false);
 							result=new Result(_impl);							
@@ -203,12 +203,10 @@ public class ExportCvTrainTextDlg extends JDialog {
 			this._resize_y.setEnabled(f);
 		}
 		/**
-		 * 入力データの整合性チェック
-		 * 1.現在のディレクトリがあるか
 		 */
 		public boolean isValid()
 		{
-			//ファイル名のチェック
+			//
 			if(this._output_text.getText().isEmpty()) {
 				JOptionPane.showConfirmDialog(this.frame, "Fill output file name.","ERROR", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
 				return false;
@@ -218,9 +216,6 @@ public class ExportCvTrainTextDlg extends JDialog {
 				JOptionPane.showConfirmDialog(this.frame, "Fix output file path","ERROR", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
 				return false;			
 			}
-			//フィルタのチェック
-				//String filter=this._filter_text.getText();
-			//出力フラグのチェック
 			if(this._patch_checkbox.isSelected() && this._resize_checkbox.isSelected()) {
 				try{
 					int i=Integer.parseInt(_resize_x.getText());
