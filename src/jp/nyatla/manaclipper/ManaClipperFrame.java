@@ -327,7 +327,7 @@ public class ManaClipperFrame {
 		JMenuItem mntmNewMenuItem_3 = new JMenuItem("About");
 		mntmNewMenuItem_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(frmManaclipper,String.format("ManaClipper/0.03\n (c)2018 nyatla.jp"));
+				JOptionPane.showMessageDialog(frmManaclipper,String.format("ManaClipper/0.0.4\n (c)2018 nyatla.jp"));
 			}
 		});
 		menuBar.add(mntmNewMenuItem_3);
@@ -527,7 +527,7 @@ class AppImpl{
 					Files.copy(new File(i.path).toPath(),new File(fdir,imagename).toPath(), StandardCopyOption.REPLACE_EXISTING);
 					filenumber++;
 					for(BoxInfo b:i.getBoxInfo()) {
-						labelfile.add(new JkfRcnLebelText.Item(imagename,new BoxInfo(0,0,r.width,r.height,b.tag)));
+						labelfile.add(new JkfRcnLebelText.Item(imagename,new BoxInfo(0,0,b.w,b.h,b.tag)));
 					}
 				}			
 			}
