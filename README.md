@@ -4,7 +4,7 @@
 
 定義した領域データは、オリジナル形式のXML、dlib互換のXMLなどで保存ができます。また、タグ付きの画像だけをコピーしたり、領域部分だけを取り出した画像の出力することができます。
 
-<img src="https://raw.githubusercontent.com/nyatla/ManaClipper/master/imgs/manaclipper.png"　/>
+![スクリーンショット](https://raw.githubusercontent.com/nyatla/ManaClipper/master/imgs/manaclipper.png "サンプル")
 
 ## 使用方法
 
