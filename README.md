@@ -1,19 +1,21 @@
 # MANACLIPPER
 
-�@�B�w�K�p�̃A�m�e�[�V�����c�[���ł��B�摜�Ɋ֘A�t�����^�O�t���̐����`�̗̈���`�ł��܂��B
+機械学習用のアノテーションツールです。画像に関連付けたタグ付きの正方形の領域を定義できます。
 
-��`�����̈�f�[�^�́A�I���W�i���`����XML�Adlib�݊���XML�Ȃǂŕۑ����ł��܂��B�܂��A�^�O�t���̉摜�������R�s�[������A�̈敔�����������o�����摜�̏o�͂��邱�Ƃ��ł��܂��B
+定義した領域データは、オリジナル形式のXML、dlib互換のXMLなどで保存ができます。また、タグ付きの画像だけをコピーしたり、領域部分だけを取り出した画像の出力することができます。
 
-## �g�p���@
+<img src="https://raw.githubusercontent.com/nyatla/ManaClipper/master/imgs/manaclipper.png"　/>
 
-1. �f�B���N�g����I������
-2. �t�@�C�����X�g����摜��I��
-3. ���N���b�N�ŗ̈���`
-4. �^�O����ҏW����ɂ̓^�O���X�g����I��
-5. �t�@�C����ۑ��A�܂��͗̈�f�[�^���o�͂���
+## 使用方法
+
+1. ディレクトリを選択する
+2. ファイルリストから画像を選ぶ
+3. 左クリックで領域を定義
+4. タグ名を編集するにはタグリストから選択
+5. ファイルを保存、または領域データを出力する
 
 
 
-## ���C�Z���X
+## ライセンス
 
-MIT���C�Z���X�ł��B
+MITライセンスです。
